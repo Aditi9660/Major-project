@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .table thead th {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-weight: 500;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .table tbody tr:nth-child(odd) {
+            background-color: #f8fafc;
+        }
+        .table tbody td {
+            padding: 15px;
+            border-color: #e2e8f0;
+            vertical-align: middle;
+        }
+        .table tbody tr:hover {
+            background-color: #edf2f7;
+            transition: all 0.2s ease;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            border-radius: 8px 8px 0 0 !important;
+            padding: 15px 20px;
+        }
+        .tracking-number {
+            font-family: monospace;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        .badge {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Package Details</h4>
+        </div>
+        <div class="card-body table-container">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">packageId</th>
+                        <th scope="col">Length</th>
+                        <th scope="col">Breadth</th>
+                        <th scope="col">Height</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">CostOfPackage</th>
+                        <th scope="col">DeliveryCost</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${package.packageId}"></td>
+                        <td th:text="${package.length}"></td>
+                        <td th:text="${package.breadth}"></td>
+                        <td th:text="${package.height}"></td>
+                        <td th:text="${package.weight}"></td>
+                        <td><span class="badge bg-success" th:text="${package.type}"></span></td>
+                        <td th:text="${package.details}"></td>
+                        <td th:text="${package.costOfPackage}"></td>
+                        <td th:text="${package.deliveryCost}"></td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <a th:href="@{/booking}">Book a Shipment</a>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

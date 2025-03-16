@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack N Track - Complete Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #E7D6D7;    /* Light pink from top section */
+            --secondary-color: #F1F5F8;  /* Light blue-gray from second section */
+            --accent-color: #B4B4B4;     /* Medium gray from third section */
+            --dark-accent: #7B625A;      /* Brown from bottom section */
+            --text-color: #444444;       /* Keeping original text color */
+            --light-bg: #F8F9FA;         /* Keeping original light background */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #FFF5F5;
+        }
+
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .btn-custom {
+            background-color: var(--dark-accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background-color: var(--light-bg);
+            margin-top: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1rem 1.5rem;
+        }
+
+        .dark-accent-header {
+            background: var(--dark-accent);
+            color: white;
+            border: none;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid var(--primary-color);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--dark-accent);
+            box-shadow: 0 0 0 0.25rem rgba(123, 98, 90, 0.25);
+        }
+
+        .btn-dark-accent {
+            background-color: var(--dark-accent);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-dark-accent:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress {
+            height: 0.5rem;
+            background-color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            background-color: var(--dark-accent);
+        }
+
+        .payment-option {
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: var(--dark-accent);
+        }
+
+        .booking-summary {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .summary-item {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tracking-box {
+            background: #FFF;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px dashed var(--dark-accent);
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .tracking-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-accent);
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            Pack N Track
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item ms-2">
+                    <a class="btn btn-custom" th:href="@{/signin}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <form id="bookingCompletionForm" method="post" th:action="@{/payment}" th:object="${packageDTO}">
+        <div class="card">
+            <div class="card-header dark-accent-header">
+                <h4 class="mb-0">Schedule & Payment</h4>
+            </div>
+            <div class="card-body">
+                <!-- Tracking/POD Number Section -->
+                <div class="mb-4">
+                    <label class="form-label">Your POD (Proof of Delivery) Number</label>
+                    <div class="tracking-box">
+                        <div class="tracking-number" th:text="${trackingNo}"></div>
+                        <small class="text-muted">Please save this number for tracking your shipment</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Pickup Date</label>
+                        <input type="date" class="form-control" th:field="*{pickUpDate}" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Payment Mode</label>
+                    <div class="row">
+                        <!-- Prepaid Option -->
+                        <div class="col-md-6 mb-3">
+                            <div class="payment-option">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           th:field="*{paymentType}"
+                                           th:value="Prepaid"
+                                           id="paymentType-prepaid"
+                                           required>
+                                    <label class="form-check-label" for="paymentType-prepaid">
+                                        <strong>Pay at Pickup</strong>
+                                        <div class="text-muted small">Cash payment when package is picked up</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Postpaid Option -->
+                        <div class="col-md-6 mb-3">
+                            <div class="payment-option">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           th:field="*{paymentType}"
+                                           th:value="Postpaid"
+                                           id="paymentType-postpaid"
+                                           required>
+                                    <label class="form-check-label" for="paymentType-postpaid">
+                                        <strong>Pay at Delivery</strong>
+                                        <div class="text-muted small">Cash payment upon delivery</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-summary">
+                    <h5 class="mb-3">Booking Summary</h5>
+                    <div class="summary-item"><strong>Estimated Delivery Time:</strong> 3-5 business days</div>
+                    <div class="summary-item"><strong>Total Cost:</strong> <strong><span th:text="${deliveryCost}"></strong></div>
+                </div>
+
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">
+                        I agree to the terms and conditions of shipping
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+            <button type="submit" class="btn btn-dark-accent">Complete Booking</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+<footer class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>Pack N Track</h5>
+                <p>Your trusted local delivery partner</p>
+                <div class="social-links">
+                    <a href="#" class="text-light"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted">About Us</a></li>
+                    <li><a href="#" class="text-muted">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-muted">Services</a></li>
+                    <li><a href="#" class="text-muted">Track Package</a></li>
+                    <li><a href="#" class="text-muted">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Contact Info</h5>
+                <ul class="list-unstyled text-muted">
+                    <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                    <li><i class="fas fa-envelope me-2"></i> info@packntrack.com</li>
+                    <li><i class="fas fa-map-marker-alt me-2"></i> 123 Delivery Street, City</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="text-center text-muted">
+            <p class="mb-0">&copy; 2025 Pack N Track. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

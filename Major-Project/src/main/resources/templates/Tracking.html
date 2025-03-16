@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Tracking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tracking-step {
+            text-align: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .tracking-step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #dee2e6;
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-completed {
+            background-color: #198754;
+            color: white;
+        }
+
+        .step-active {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .step-lost {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .step-label {
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <!-- Package Info -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Tracking Number:</strong></p>
+                    <p class="text-primary" th:text="${package.trackingNumber}">ABC123</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Status:</strong></p>
+                    <p th:text="${package.currentStatus}" th:class="${package.currentStatus == 'LOST' ? 'text-danger' : 'text-success'}">
+                        In Transit
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracking Steps -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row g-0">
+                <!-- Booked -->
+                <div class="col tracking-step">
+                    <div class="step-circle" th:classappend="${
+                            package.currentStatus == 'BOOKED' ? 'step-active' :
+                            #lists.contains(package.completedStatuses, 'BOOKED') ? 'step-completed' : ''
+                        }">
+                        <i class="bi bi-box"></i>
+                    </div>
+                    <div class="step-label">Booked</div>
+                </div>
+
+                <!-- Picked Up -->
+                <div class="col tracking-step">
+                    <div class="step-circle" th:classappend="${
+                            package.currentStatus == 'PICKED_UP' ? 'step-active' :
+                            #lists.contains(package.completedStatuses, 'PICKED_UP') ? 'step-completed' : ''
+                        }">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="step-label">Picked Up</div>
+                </div>
+
+                <!-- Transit -->
+                <div class="col tracking-step">
+                    <div class="step-circle" th:classappend="${
+                            package.currentStatus == 'TRANSIT' ? 'step-active' :
+                            #lists.contains(package.completedStatuses, 'TRANSIT') ? 'step-completed' : ''
+                        }">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="step-label">In Transit</div>
+                </div>
+
+                <!-- Out For Delivery -->
+                <div class="col tracking-step">
+                    <div class="step-circle" th:classappend="${
+                            package.currentStatus == 'OUT_FOR_DELIVERY' ? 'step-active' :
+                            #lists.contains(package.completedStatuses, 'OUT_FOR_DELIVERY') ? 'step-completed' : ''
+                        }">
+                        <i class="bi bi-bicycle"></i>
+                    </div>
+                    <div class="step-label">Out For Delivery</div>
+                </div>
+
+                <!-- Delivered -->
+                <div class="col tracking-step">
+                    <div class="step-circle" th:classappend="${
+                            package.currentStatus == 'DELIVERED' ? 'step-active' :
+                            #lists.contains(package.completedStatuses, 'DELIVERED') ? 'step-completed' : ''
+                        }">
+                        <i class="bi bi-house-check"></i>
+                    </div>
+                    <div class="step-label">Delivered</div>
+                </div>
+            </div>
+
+            <!-- Status Timeline -->
+            <div class="mt-5">
+                <h6>Tracking History</h6>
+                <div class="list-group">
+                    <div class="list-group-item" th:each="status : ${package.statusHistory}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1" th:text="${status.statusName}">Status Name</h6>
+                            <small th:text="${#temporals.format(status.timestamp, 'dd-MM-yyyy HH:mm')}">Timestamp</small>
+                        </div>
+                        <p class="mb-1" th:text="${status.description}">Status description</p>
+                        <small th:text="${status.location}">Location</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

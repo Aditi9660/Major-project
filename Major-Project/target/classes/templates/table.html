@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack N Track - Delivery Tracking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #E7D6D7;    /* Light pink from top section */
+            --secondary-color: #F1F5F8;  /* Light blue-gray from second section */
+            --accent-color: #B4B4B4;     /* Medium gray from third section */
+            --dark-accent: #7B625A;      /* Brown from bottom section */
+            --text-color: #444444;       /* Keeping original text color */
+            --light-bg: #F8F9FA;         /* Keeping original light background */
+        }
+
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .btn-custom {
+            background-color: var(--dark-accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Updated table styles */
+        .table-container {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+        }
+        .table {
+            font-size: 0.9rem;
+        }
+        .table thead th {
+            background: var(--dark-accent);
+            color: white;
+            border: none;
+            padding: 10px;
+            font-weight: 500;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .table tbody tr:nth-child(odd) {
+            background-color: var(--light-bg);
+        }
+        .table tbody td {
+            padding: 10px;
+            border-color: #e2e8f0;
+            vertical-align: middle;
+        }
+        .table tbody tr:hover {
+            background-color: var(--secondary-color);
+            transition: all 0.2s ease;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 3px 4px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .card-header {
+            background: var(--dark-accent);
+            color: white;
+            border-radius: 8px 8px 0 0 !important;
+            padding: 12px 15px;
+        }
+        .tracking-number {
+            font-family: monospace;
+            color: var(--dark-accent);
+            font-weight: 500;
+        }
+        .badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Improved Book a Shipment button */
+        .book-shipment-btn {
+            display: inline-block;
+            background-color: var(--dark-accent);
+            color: white !important;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            text-align: center;
+        }
+
+        .book-shipment-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background-color: var(--light-bg);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            Pack N Track
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item ms-2">
+                    <a class="btn btn-custom" th:href="@{/signin}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Delivery Tracking</h4>
+        </div>
+        <div class="card-body table-container">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Tracking No.</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Delivery Type</th>
+                        <th scope="col">PackageId</th>
+                        <th scope="col">details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${tracking.userId}"></td>
+                        <td th:text="${tracking.username}"></td>
+                        <td class="tracking-number" th:text="${tracking.trackingNo}"></td>
+                        <td><span class="badge bg-success" th:text="${tracking.deliveryStatus}"></span></td>
+                        <td th:text="${tracking.deliveryType}"></td>
+                        <td th:text="${tracking.packageId}"></td>
+                        <td>
+                            <a th:href="@{/display/details}">View Details</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="text-center mb-3">
+            <a th:href="@{/booking}" class="book-shipment-btn">Book a Shipment</a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="py-4">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Pack N Track</h5>
+                    <p>Your trusted local delivery partner</p>
+                    <div class="social-links">
+                        <a href="#" class="text-light"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">About Us</a></li>
+                        <li><a href="#" class="text-muted">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-muted">Services</a></li>
+                        <li><a href="#" class="text-muted">Track Package</a></li>
+                        <li><a href="#" class="text-muted">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@packntrack.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Delivery Street, City</li>
+                    </ul>
+                </div>
+            </div>
+
+        <hr class="my-4">
+        <div class="text-center text-muted">
+            <p class="mb-0">&copy; 2025 Pack N Track. All rights reserved.</p>
+        </div>
+        </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

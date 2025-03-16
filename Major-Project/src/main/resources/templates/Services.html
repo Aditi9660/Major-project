@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Pack N Track</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #E7D6D7;    /* Light pink from top section */
+            --secondary-color: #F1F5F8;  /* Light blue-gray from second section */
+            --accent-color: #B4B4B4;     /* Medium gray from third section */
+            --dark-accent: #7B625A;      /* Brown from bottom section */
+            --text-color: #444444;       /* Keeping original text color */
+            --light-bg: #F8F9FA;         /* Keeping original light background */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(231, 214, 215, 0.8), rgba(123, 98, 90, 0.7)),
+                        url('/images/image2.jpeg') center/cover;
+            padding: 100px 0;
+            color: white;
+            position: relative;
+        }
+
+        .btn-custom {
+            background-color: var(--dark-accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .service-card {
+            border: none;
+            border-radius: 15px;
+            transition: all 0.3s;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .pricing-card {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            height: 100%;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .pricing-highlight {
+            background-color: var(--primary-color);
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-accent);
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li i {
+            color: var(--dark-accent);
+            margin-right: 10px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-accent);
+        }
+
+        footer {
+            background-color: var(--light-bg);
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            Pack N Track
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/aboutus">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#contact">Contact</a>
+                </li>
+                <li class="nav-item ms-2">
+                    <a class="btn btn-custom" th:href="@{/signin}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="display-4 fw-bold">Our Services</h1>
+                <p class="lead">Reliable local delivery solutions for all your shipping needs</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2>Delivery Solutions Tailored to Your Needs</h2>
+                <p class="lead">Choose the service that fits your schedule and budget</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Standard Delivery -->
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-truck fa-2x text-primary"></i>
+                    </div>
+                    <h3>Standard Delivery</h3>
+                    <p>Our cost-effective option for regular shipments without the rush. Perfect for planned deliveries.</p>
+                    <ul class="feature-list text-start mt-4">
+                        <li><i class="fas fa-check"></i> Delivery within 2-3 business days</li>
+                        <li><i class="fas fa-check"></i> Available 6 days a week</li>
+                        <li><i class="fas fa-check"></i> Manual tracking updates</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Express Delivery -->
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-bolt fa-2x text-primary"></i>
+                    </div>
+                    <h3>Express Delivery</h3>
+                    <p>Expedited service for when you need your package delivered quickly and efficiently.</p>
+                    <ul class="feature-list text-start mt-4">
+                        <li><i class="fas fa-check"></i> Next-day delivery guaranteed</li>
+                        <li><i class="fas fa-check"></i> Package protection up to ₹3000</li>
+                        <li><i class="fas fa-check"></i> Priority handling</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Overnight Delivery -->
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-moon fa-2x text-primary"></i>
+                    </div>
+                    <h3>Overnight Delivery</h3>
+                    <p>For urgent shipments that need to arrive by the next morning. Our premium delivery option.</p>
+                    <ul class="feature-list text-start mt-4">
+                        <li><i class="fas fa-check"></i> Delivery by 9 AM next morning</li>
+                        <li><i class="fas fa-check"></i> Available 7 days a week</li>
+                        <li><i class="fas fa-check"></i> Package protection up to ₹5000</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2>How It Works</h2>
+                <p class="lead">Simple steps to get your package delivered</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 text-center mb-4">
+                <div class="service-icon mx-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-primary"></i>
+                </div>
+                <h4 class="mt-4">1. Book</h4>
+                <p>Book a shipment via our website by entering all the necessary details and selecting the service level.</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="service-icon mx-auto">
+                    <i class="fas fa-box fa-2x text-primary"></i>
+                </div>
+                <h4 class="mt-4">2. Pickup</h4>
+                <p>Our courier will arrive at your location to collect your package.</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="service-icon mx-auto">
+                    <i class="fas fa-shipping-fast fa-2x text-primary"></i>
+                </div>
+                <h4 class="mt-4">3. Delivery</h4>
+                <p>We deliver your package according to the service level you selected.</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="service-icon mx-auto">
+                    <i class="fas fa-check-circle fa-2x text-primary"></i>
+                </div>
+                <h4 class="mt-4">4. Confirmation</h4>
+                <p>Receive delivery confirmation and proof of delivery .</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2>Frequently Asked Questions</h2>
+                <p class="lead">Answers to common queries about our services</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="faq-item">
+                    <p class="faq-question">How do I book a delivery?</p>
+                    <p>You can book a delivery by calling our office at +916232690694 or by visiting our office in person.</p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-question">What payment methods do you accept?</p>
+                    <p>We currently accept cash payments on pickup or delivery. We do not offer online payment options at this time.</p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-question">How can I track my package?</p>
+                    <p>You can track your order by entering your generated tracking number on our website.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="faq-item">
+                    <p class="faq-question">What is your delivery area?</p>
+                    <p>We currently serve all areas within Indore city limits. For deliveries to surrounding areas, please contact us for availability and pricing.</p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-question">What happens if my package is damaged or lost?</p>
+                    <p>We offer package protection with different coverage levels based on your selected service. </p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-question">Do you deliver on weekends and holidays?</p>
+                    <p>Standard and Express deliveries are available Monday through Saturday. Overnight delivery is available 7 days a week, including holidays (may incur additional charges).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Us Section -->
+<section id="contact-us" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2>Ready to Ship?</h2>
+                <p class="lead">Contact us to book your delivery</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="service-card">
+                    <h3>Contact Information</h3>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3"><i class="fas fa-phone me-3 text-primary"></i> +916232690694</li>
+                        <li class="mb-3"><i class="fas fa-envelope me-3 text-primary"></i> info@packntrack.com</li>
+                        <li class="mb-3"><i class="fas fa-map-marker-alt me-3 text-primary"></i> 123 Delivery Street, Indore</li>
+                        <li class="mb-3"><i class="fas fa-clock me-3 text-primary"></i> Monday - Saturday: 9 AM - 7 PM</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>Pack N Track</h5>
+                <p>Your trusted local delivery partner</p>
+                <div class="social-links">
+                    <a href="#" class="text-light"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/aboutus}" class="text-muted">About Us</a></li>
+                    <li><a th:href="@{/TermsAndConditions}" class="text-muted">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-muted">Services</a></li>
+                    <li><a th:href="@{/ContactUs}" class="text-muted">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Contact Info</h5>
+                <ul class="list-unstyled text-muted">
+                    <li><i class="fas fa-phone me-2"></i> +916232690694</li>
+                    <li><i class="fas fa-envelope me-2"></i> info@packntrack.com</li>
+                    <li><i class="fas fa-map-marker-alt me-2"></i> 123 Delivery Street, Indore</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="text-center text-muted">
+            <p class="mb-0">&copy; 2025 Pack N Track. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
